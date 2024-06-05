@@ -1,0 +1,32 @@
+version: '3'
+services:
+  elasticsearch-node3:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.0
+    container_name: es-node3
+    environment:
+      - node.name=es-node3
+      - cluster.name=es-cluster
+      - network.publish_host=a.b.c.d
+      - discovery.seed_hosts=a.b.c.d,a.b.c.d,a.b.c.d
+      - cluster.initial_master_nodes=es-node1,es-node2,es-node3
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms32g -Xmx32g"
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /data/elasticsearch:/usr/share/elasticsearch/data:rw
+      - logs:/usr/share/elasticsearch/logs
+    ports:
+      - 9200:9200
+      - 9300:9300
+
+volumes:
+  logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "logs"
