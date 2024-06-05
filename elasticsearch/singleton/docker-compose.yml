@@ -17,6 +17,7 @@ services:
     volumes:
       - data:/usr/share/elasticsearch/data:rw
       - logs:/usr/share/elasticsearch/logs
+      - ./plugins/ik:/usr/share/elasticsearch/plugins/ik
     ports:
       - 9200:9200
       - 9300:9300
